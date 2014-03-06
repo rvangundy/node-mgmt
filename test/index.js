@@ -11,6 +11,7 @@ describe('mgmt', function () {
             mgmt.getLogs()
                 .then(function (logs) {
                     var log = logs[1];
+
                     assert.ok(logs.length);
                     assert.ok('author' in log);
                     assert.ok('message' in log);
