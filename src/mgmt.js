@@ -44,26 +44,31 @@ function getLogCommand() {
 
 /**
  * Parses commit logs and returns an array of commit objects
- * @param {String} stdin Commit logs as an unparsed string
+ * @param {String} stdout Commit logs as an unparsed string
  */
-function parseLogs(stdin) {
-    var logs = stdin.split('\n');
+function parseLogs(stdout) {
+    var logs = stdout.split('\n').reverse();
+    var results = [];
 
-    logs.forEach(function (log, i) {
-        var items = log.split(delimiter);
-        var result = {};
+    logs.forEach(function (log) {
+        var items, result;
 
-        fields.forEach(function (key, j) {
-            result[key] = items[j];
-        });
+        if (log) {
+            items = log.split(delimiter);
+            result = {};
 
-        // Convert date seconds to ms
-        result.date = result.date ? new Date(result.date * 1000) : null;
+            fields.forEach(function (key, j) {
+                result[key] = items[j];
+            });
 
-        logs[i] = result;
+            // Convert date seconds to ms
+            result.date = result.date ? new Date(result.date * 1000) : null;
+
+            results.push(result);
+        }
     });
 
-    return logs;
+    return results;
 }
 
 /**
@@ -72,8 +77,8 @@ function parseLogs(stdin) {
  */
 function getLogs() {
     return exec(getLogCommand())
-            .then(function (stdin) {
-                return parseLogs(stdin);
+            .then(function (stdout) {
+                return parseLogs(stdout);
             });
 }
 
