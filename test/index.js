@@ -10,9 +10,11 @@ describe('mgmt', function () {
         it('should return a parsed array of commit logs', function (ok) {
             mgmt.getLogs()
                 .then(function (logs) {
+                    var log = logs[1];
                     assert.ok(logs.length);
-                    assert.ok(logs[0].author);
-                    assert.ok(logs[0].message);
+                    assert.ok('author' in log);
+                    assert.ok('message' in log);
+                    assert.ok('description' in log);
                     assert.ok(logs[0].date instanceof Date);
                     ok();
                 }, ok);
