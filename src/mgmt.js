@@ -6,8 +6,8 @@ var mgmt;
  *  Dependencies  *
  ******************/
 
-var Promise     = require('promise');
-var exec        = Promise.denodeify(require('child_process').exec);
+var Promise = require('promise');
+var exec    = Promise.denodeify(require('child_process').exec);
 
 /************
  *  RegExp  *
