@@ -84,7 +84,7 @@ function getLogCommand() {
  */
 function parseLogs(stdout) {
     var tags;
-    var logs = stdout.split('\n').reverse();
+    var logs = stdout.split('\n');
     var results = [];
 
     logs.forEach(function (log) {
