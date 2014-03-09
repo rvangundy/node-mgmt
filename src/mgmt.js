@@ -6,8 +6,18 @@ var mgmt;
  *  Dependencies  *
  ******************/
 
-var Promise = require('promise');
-var exec    = Promise.denodeify(require('child_process').exec);
+var Promise     = require('promise');
+var exec        = Promise.denodeify(require('child_process').exec);
+
+/************
+ *  RegExp  *
+ ************/
+
+/**
+ * Queries for identifiers of either hashtags or IDs
+ * @type {RegExp}
+ */
+var queryTags = /#(\w+)|@(\w+)/g;
 
 /***************
  *  Constants  *
@@ -29,6 +39,32 @@ var placeHolders = {
  *************/
 
 /**
+ * Parses out tags, strings of letters and numbers beginning
+ * with @ or #.
+ * @param {String} text A string containing identifiers
+ * @param {Object} tags An optional tags object to return
+ * @return {Object} tags
+ */
+function parseTags(text, tags) {
+    var result;
+
+    tags = tags || {
+        hash : [],
+        ids : []
+    };
+
+    if (!text) { return; }
+
+    // Collect all tags using a regular expression
+    while ((result = queryTags.exec(text)) !== null) {
+        if (result[1]) { tags.hash.push(result[1]); }
+        if (result[2]) { tags.ids.push(result[2]); }
+    }
+
+    return tags;
+}
+
+/**
  * Formats an appropriate log command
  */
 function getLogCommand() {
@@ -47,6 +83,7 @@ function getLogCommand() {
  * @param {String} stdout Commit logs as an unparsed string
  */
 function parseLogs(stdout) {
+    var tags;
     var logs = stdout.split('\n').reverse();
     var results = [];
 
@@ -62,7 +99,13 @@ function parseLogs(stdout) {
             });
 
             // Convert date seconds to ms
-            result.date = result.date ? new Date(result.date * 1000) : null;
+            result.date = result.date ? result.date * 1000 : null;
+
+            // Get all @ and # tags
+            tags = parseTags(result.message, tags);
+            tags = parseTags(result.description, tags);
+
+            if (tags) { result.tags = tags; }
 
             results.push(result);
         }
@@ -79,7 +122,7 @@ function getLogs() {
     return exec(getLogCommand())
             .then(function (stdout) {
                 return parseLogs(stdout);
-            });
+            }.bind(this));
 }
 
 /*********
