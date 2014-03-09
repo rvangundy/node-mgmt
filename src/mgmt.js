@@ -83,12 +83,11 @@ function getLogCommand() {
  * @param {String} stdout Commit logs as an unparsed string
  */
 function parseLogs(stdout) {
-    var tags;
     var logs = stdout.split('\n');
     var results = [];
 
     logs.forEach(function (log) {
-        var items, result;
+        var items, result, tags;
 
         if (log) {
             items = log.split(delimiter);
