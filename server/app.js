@@ -19,9 +19,9 @@ var read        = Promise.denodeify(fs.readFile);
  ***************/
 
 var APP_ROOT = '/';
-var SCRIPT_SRC = './app/index.js';
-var HTML_SRC = './app/index.html';
-var STYL_SRC = './app/main.styl';
+var SCRIPT_SRC = __dirname + '/../app/index.js';
+var HTML_SRC = __dirname + '/../app/index.html';
+var STYL_SRC = __dirname + '/../app/main.styl';
 
 /*********
  *  App  *
@@ -62,7 +62,7 @@ function loadStyle(src) {
     return read(src, 'utf-8')
         .then(function (text) {
             var style = styl(text, {whitespace : true})
-                .use(reworkNPM())
+                .use(reworkNPM({ dir : __dirname + '/../node_modules' }))
                 .use(reworkMath())
                 .toString();
             return style;
