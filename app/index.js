@@ -117,6 +117,7 @@ function getCommitLogs() {
     client.use(rest.json());
     client.get(function (req, res) {
         logs = res.body;
+        console.log(logs);
         document.body.innerHTML = commitTemplate(execQuery());
     });
 }

@@ -1,0 +1,47 @@
+@charset "utf-8"
+@import "css-reset"
+
+hr
+  border: none
+  height: 1px
+  background-color: #DDDDDD
+
+.commit-item
+  display: block
+  height: 3.0em
+  border-bottom: 1px solid #CCCCCC
+  margin: 0.3em
+  line-height: 1.2em
+  &:last-child
+    border-bottom: none
+
+.commit-hash
+  font-size: 0.8em
+  font-weight: normal
+  color: #333333
+  background-color: #CCCCCC
+  border-radius: 0.5em
+  padding: 0.1em 0.3em
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+
+.commit-author
+  font-size: 0.8em
+  font-weight: normal
+
+.commit-author-link
+  text-decoration: none
+  color: #555555
+  &:hover
+    text-decoration: underline
+
+.commit-message
+  font-size: 1em
+  font-weight: bold
+  display: inline
+
+body
+  margin: 5% 10% 5% 10%
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+  font-weight: 300
