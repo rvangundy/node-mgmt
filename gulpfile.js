@@ -7,6 +7,7 @@
 var gulp       = require('gulp');
 var mocha      = require('gulp-mocha');
 var supervisor = require('gulp-supervisor');
+var bump       = require('gulp-bump');
 
 /***********
  *  Tasks  *
@@ -34,4 +35,11 @@ gulp.task('develop', function () {
 gulp.task('test', function () {
     gulp.src('test/index.js')
         .pipe(mocha());
+});
+
+// Bump
+gulp.task('bump', function () {
+    gulp.src(['./package.json'])
+        .pipe(bump({type : 'fix'}))
+        .pipe(gulp.dest('./'));
 });
