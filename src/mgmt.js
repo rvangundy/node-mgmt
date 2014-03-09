@@ -53,7 +53,7 @@ function parseTags(text, tags) {
         ids : []
     };
 
-    if (!text) { return; }
+    if (!text) { return tags; }
 
     // Collect all tags using a regular expression
     while ((result = queryTags.exec(text)) !== null) {
@@ -69,7 +69,7 @@ function parseTags(text, tags) {
  */
 function getLogCommand() {
     var command = 'git log --pretty="';
-    var format = [];
+    var format  = [];
 
     fields.forEach(function (key) {
         format.push(placeHolders[key]);
