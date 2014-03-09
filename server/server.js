@@ -9,6 +9,4 @@ require('./app')(server, { debug : true });
 
 server.listen(port);
 
-console.log('listening on port ' + port);
-
 module.exports = server;
